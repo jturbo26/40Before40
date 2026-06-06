@@ -1,0 +1,1082 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>40 Before 40</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap');
+
+  :root {
+    --bg: #0f0f0f;
+    --surface: #1a1a1a;
+    --surface2: #222222;
+    --border: #2a2a2a;
+    --accent: #e8ff00;
+    --accent2: #ff6b35;
+    --text: #f0f0f0;
+    --muted: #666;
+    --green: #4ade80;
+    --red: #f87171;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+    padding: 20px 16px 80px;
+    max-width: 480px;
+    margin: 0 auto;
+  }
+
+  header { margin-bottom: 20px; }
+
+  .logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 42px;
+    letter-spacing: 2px;
+    line-height: 1;
+    color: var(--accent);
+  }
+
+  .subtitle {
+    color: var(--muted);
+    font-size: 13px;
+    margin-top: 4px;
+  }
+
+  .countdown {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    padding: 14px 16px;
+    margin-bottom: 16px;
+    border-radius: 4px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .countdown-left {}
+  .countdown-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--muted);
+    margin-bottom: 2px;
+  }
+  .countdown-number {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 40px;
+    color: var(--accent);
+    line-height: 1;
+  }
+  .countdown-sub { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+  .streak-box {
+    text-align: right;
+  }
+  .streak-number {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 40px;
+    color: var(--accent2);
+    line-height: 1;
+  }
+  .streak-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
+
+  /* Weekly calendar */
+  .week-strip {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 16px;
+  }
+  .day-pip {
+    flex: 1;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 6px 4px;
+    text-align: center;
+  }
+  .day-pip .pip-label {
+    font-size: 10px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .day-pip .pip-dot {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--border);
+    margin: 4px auto 0;
+  }
+  .day-pip.worked .pip-dot { background: var(--green); }
+  .day-pip.today { border-color: var(--accent); }
+  .day-pip .pip-type {
+    font-size: 9px;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+  .day-pip.worked .pip-type { color: var(--green); }
+
+  .tab-bar {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+  .tab {
+    flex: 1;
+    padding: 10px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    text-align: center;
+    cursor: pointer;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 18px;
+    letter-spacing: 1px;
+    color: var(--muted);
+    transition: all 0.15s;
+    line-height: 1.2;
+  }
+  .tab.active { background: var(--accent); color: #000; border-color: var(--accent); }
+  .tab small { font-family: 'DM Sans', sans-serif; font-size: 10px; letter-spacing: 0; font-weight: 400; display: block; }
+
+  .progress-bar-wrap {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 12px 16px;
+    margin-bottom: 16px;
+  }
+  .progress-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+  .progress-label { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
+  .progress-pct { font-family: 'Bebas Neue', sans-serif; font-size: 22px; color: var(--accent); }
+  .progress-track { height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
+  .progress-fill { height: 100%; background: var(--accent); border-radius: 3px; transition: width 0.4s ease; }
+
+  .workout-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+
+  .section-divider {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 14px 0 10px;
+  }
+  .section-divider-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--accent2);
+    white-space: nowrap;
+    font-weight: 600;
+  }
+  .section-divider-line { flex: 1; height: 1px; background: var(--border); }
+
+  .exercise-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 12px 14px;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transition: border-color 0.15s, opacity 0.15s;
+  }
+  .exercise-card.done { border-color: var(--green); opacity: 0.55; }
+  .exercise-info { flex: 1; }
+  .exercise-name { font-weight: 600; font-size: 14px; margin-bottom: 3px; }
+  .exercise-target { font-size: 12px; color: var(--muted); }
+  .exercise-target span { color: var(--accent); font-weight: 600; }
+  .exercise-desc { font-size: 11px; color: #444; margin-top: 5px; line-height: 1.5; }
+  .weight-note {
+    display: inline-block;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    padding: 1px 5px;
+    font-size: 10px;
+    color: var(--accent2);
+    margin-left: 5px;
+    font-weight: 600;
+  }
+
+  .check-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 2px solid var(--border);
+    background: transparent;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--muted);
+    font-size: 16px;
+    transition: all 0.15s;
+    flex-shrink: 0;
+  }
+  .check-btn:hover { border-color: var(--green); color: var(--green); }
+  .exercise-card.done .check-btn { background: var(--green); border-color: var(--green); color: #000; }
+
+  .notes-section {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent2);
+    border-radius: 4px;
+    padding: 12px 14px;
+    margin-top: 16px;
+  }
+  .notes-title {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--accent2);
+    margin-bottom: 8px;
+    font-weight: 600;
+  }
+  .note-item {
+    font-size: 12px;
+    color: var(--muted);
+    padding: 4px 0;
+    border-bottom: 1px solid var(--border);
+    line-height: 1.5;
+  }
+  .note-item:last-child { border-bottom: none; }
+  .note-item strong { color: var(--text); }
+
+  .btn-row { display: flex; gap: 8px; margin-top: 14px; }
+
+  .finish-btn {
+    flex: 1;
+    padding: 14px;
+    background: var(--accent);
+    border: none;
+    border-radius: 4px;
+    color: #000;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: opacity 0.15s;
+  }
+  .finish-btn:disabled { opacity: 0.3; cursor: default; }
+
+  .reset-btn {
+    padding: 14px 16px;
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    color: var(--muted);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 18px;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .reset-btn:hover { border-color: var(--red); color: var(--red); }
+
+  .complete-banner {
+    background: var(--green);
+    color: #000;
+    text-align: center;
+    padding: 14px;
+    border-radius: 6px;
+    margin-top: 14px;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 2px;
+    display: none;
+  }
+  .complete-banner.show { display: block; }
+
+  .history-section {
+    margin-top: 24px;
+    border-top: 1px solid var(--border);
+    padding-top: 16px;
+  }
+  .history-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 1px;
+    color: var(--muted);
+    margin-bottom: 12px;
+  }
+  .history-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+  }
+  .history-item:last-child { border-bottom: none; }
+  .history-date { color: var(--muted); }
+  .history-type {
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 3px;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  .history-type.a { background: rgba(232,255,0,0.15); color: var(--accent); }
+  .history-type.b { background: rgba(255,107,53,0.15); color: var(--accent2); }
+  .clear-history {
+    font-size: 11px;
+    color: var(--red);
+    cursor: pointer;
+    text-decoration: underline;
+    margin-top: 10px;
+    display: inline-block;
+  }
+
+  /* PUSHUP TRACKER */
+  .pushup-section {
+    margin-top: 24px;
+    border-top: 1px solid var(--border);
+    padding-top: 16px;
+    margin-bottom: 24px;
+  }
+  .pushup-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+  .pushup-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 26px;
+    letter-spacing: 1px;
+    color: var(--accent2);
+  }
+  .pushup-sub { font-size: 11px; color: var(--muted); margin-top: 1px; }
+  .pushup-today-count {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 52px;
+    color: var(--accent2);
+    line-height: 1;
+  }
+  .pushup-info {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent2);
+    border-radius: 4px;
+    padding: 12px 14px;
+    margin-bottom: 14px;
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+  .pushup-info strong { color: var(--text); }
+  .pushup-input-row { display: flex; gap: 8px; margin-bottom: 12px; }
+  .pushup-input-row input {
+    flex: 1;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    color: var(--text);
+    font-size: 22px;
+    padding: 10px 14px;
+    font-family: 'Bebas Neue', sans-serif;
+    letter-spacing: 1px;
+    outline: none;
+    -moz-appearance: textfield;
+  }
+  .pushup-input-row input::-webkit-outer-spin-button,
+  .pushup-input-row input::-webkit-inner-spin-button { -webkit-appearance: none; }
+  .pushup-input-row input:focus { border-color: var(--accent2); }
+  .pushup-input-row input::placeholder { color: var(--muted); font-size: 14px; font-family: 'DM Sans', sans-serif; }
+  .pushup-log-btn {
+    padding: 10px 20px;
+    background: var(--accent2);
+    border: none;
+    border-radius: 4px;
+    color: #fff;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 18px;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: opacity 0.15s;
+  }
+  .pushup-log-btn:active { opacity: 0.75; }
+  .pushup-vs-yesterday { font-size: 12px; margin-bottom: 10px; min-height: 18px; }
+  .pushup-sets-list { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; min-height: 10px; }
+  .pushup-set-chip {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 4px 10px;
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .pushup-set-chip span { color: var(--accent2); font-weight: 600; }
+  .pushup-history-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 18px;
+    letter-spacing: 1px;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+  .pushup-hist-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+  }
+  .pushup-hist-item:last-child { border-bottom: none; }
+  .pushup-hist-date { color: var(--muted); }
+  .pushup-hist-total { font-family: 'Bebas Neue', sans-serif; font-size: 20px; color: var(--accent2); }
+  .pushup-hist-badge {
+    font-size: 10px;
+    padding: 2px 6px;
+    border-radius: 10px;
+    margin-left: 6px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 600;
+  }
+  .pushup-hist-badge.pr { background: rgba(232,255,0,0.15); color: var(--accent); }
+  .pushup-hist-badge.beat { background: rgba(74,222,128,0.15); color: var(--green); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">40 Before 40</div>
+  <div class="subtitle">Maintenance + Cardio · Joe</div>
+</header>
+
+<div class="countdown">
+  <div class="countdown-left">
+    <div class="countdown-label">Days to Birthday</div>
+    <div class="countdown-number" id="days-left">--</div>
+    <div class="countdown-sub">July 17, 2026</div>
+  </div>
+  <div class="streak-box">
+    <div class="streak-number" id="streak-count">0</div>
+    <div class="streak-label">🔥 Streak</div>
+  </div>
+</div>
+
+<div class="week-strip" id="week-strip"></div>
+
+<div class="tab-bar">
+  <div class="tab active" id="tab-a" onclick="showDay('a')">DAY A<small>Push + Legs</small></div>
+  <div class="tab" id="tab-b" onclick="showDay('b')">DAY B<small>Pull + Hinge</small></div>
+</div>
+
+<div class="progress-bar-wrap">
+  <div class="progress-header">
+    <div class="progress-label">Today's Progress</div>
+    <div class="progress-pct" id="pct-label">0%</div>
+  </div>
+  <div class="progress-track">
+    <div class="progress-fill" id="progress-fill" style="width:0%"></div>
+  </div>
+</div>
+
+<!-- DAY A -->
+<div id="day-a">
+  <div class="workout-label">Day A · Push + Legs · ~20 min</div>
+
+  <div class="section-divider"><div class="section-divider-label">Legs</div><div class="section-divider-line"></div></div>
+
+  <div class="exercise-card" id="ex-a1">
+    <div class="exercise-info">
+      <div class="exercise-name">Goblet Squat Wide Stance <span class="weight-note">PR: 60lb</span></div>
+      <div class="exercise-target">2 sets × 10 reps · <span>50–60 lbs</span> · toes out, sink deep</div>
+      <div class="exercise-desc">Hold dumbbell vertically at chest. Feet wider than shoulder width, toes pointed out 45°. Sit straight down as deep as you can — knees track over toes. Your legs are your strongest muscle group right now. Own it.</div>
+    </div>
+    <button class="check-btn" onclick="toggle('ex-a1','a')">✓</button>
+  </div>
+
+  <div class="section-divider"><div class="section-divider-label">Push</div><div class="section-divider-line"></div></div>
+
+  <div class="exercise-card" id="ex-a2">
+    <div class="exercise-info">
+      <div class="exercise-name">Incline DB Bench Press <span class="weight-note">PR: 45lb</span></div>
+      <div class="exercise-target">2 sets × 8–10 reps · <span>35–40 lbs</span> · neutral grip, watch shoulder</div>
+      <div class="exercise-desc">Bench at 30–45°, palms facing each other (neutral grip). Elbows at 45° to your body — not flared out. Stop if you feel shoulder impingement. Drop weight before dropping reps.</div>
+    </div>
+    <button class="check-btn" onclick="toggle('ex-a2','a')">✓</button>
+  </div>
+
+  <div class="exercise-card" id="ex-a3">
+    <div class="exercise-info">
+      <div class="exercise-name">Seated Overhead Press <span class="weight-note">PR: 30lb</span></div>
+      <div class="exercise-target">2 sets × 10 reps · <span>25–30 lbs</span></div>
+      <div class="exercise-desc">Sit upright, core tight. Press straight up, don't let the weights drift forward. Lower controlled — don't drop them. Shoulder friendly as long as you don't arch your back excessively.</div>
+    </div>
+    <button class="check-btn" onclick="toggle('ex-a3','a')">✓</button>
+  </div>
+
+  <div class="section-divider"><div class="section-divider-label">Shoulders + Core</div><div class="section-divider-line"></div></div>
+
+  <div class="exercise-card" id="ex-a4">
+    <div class="exercise-info">
+      <div class="exercise-name">Lateral Raise <span class="weight-note">PR: 15lb</span></div>
+      <div class="exercise-target">2 sets × 10–12 reps · <span>10–15 lbs</span></div>
+      <div class="exercise-desc">Slight bend in elbows, raise arms out to the side to shoulder height. Lead with your elbows, not your hands. Slow and controlled on the way down — that's where the work happens.</div>
+    </div>
+    <button class="check-btn" onclick="toggle('ex-a4','a')">✓</button>
+  </div>
+
+  <div class="exercise-card" id="ex-a5">
+    <div class="exercise-info">
+      <div class="exercise-name">Hollow Hold <span class="weight-note">PR: 39 sec</span></div>
+      <div class="exercise-target">2 sets · <span>35–40 sec</span></div>
+      <div class="exercise-desc">Lie on your back, lower back pressed flat into the floor — that's the key. Arms extended overhead, legs straight and raised. If your back lifts off, bend your knees. You hit 39 seconds in peak week. Hold that.</div>
+    </div>
+    <button class="check-btn" onclick="toggle('ex-a5','a')">✓</button>
+  </div>
+
+  <div class="notes-section">
+    <div class="notes-title">Day A Notes</div>
+    <div class="note-item"><strong>Shoulder:</strong> Drop weight before dropping reps if it flares up.</div>
+    <div class="note-item"><strong>Goblet squat:</strong> Stack a dumbbell on 50 to hit 55–60 if needed.</div>
+    <div class="note-item"><strong>Goal:</strong> Maintain intensity, not volume. 2 heavy sets is enough.</div>
+  </div>
+</div>
+
+<!-- DAY B -->
+<div id="day-b" style="display:none">
+  <div class="workout-label">Day B · Pull + Hinge · ~20 min</div>
+
+  <div class="section-divider"><div class="section-divider-label">Hinge</div><div class="section-divider-line"></div></div>
+
+  <div class="exercise-card" id="ex-b1">
+    <div class="exercise-info">
+      <div class="exercise-name">Dumbbell Deadlift <span class="weight-note">PR: 60lb</span></div>
+      <div class="exercise-target">2 sets × 10 reps · <span>50–60 lbs</span> · hinge at hips</div>
+      <div class="exercise-desc">Hinge at the hips, not the knees. Push your butt back, keep your back flat, feel the stretch in your hamstrings. Drive through your heels to stand. This is where your form clicked in week 3 — keep that feeling.</div>
+    </div>
+    <button class="check-btn" onclick="toggle('ex-b1','b')">✓</button>
+  </div>
+
+  <div class="exercise-card" id="ex-b2">
+    <div class="exercise-info">
+      <div class="exercise-name">Dumbbell Glute Bridge <span class="weight-note">PR: 40lb</span></div>
+      <div class="exercise-target">2 sets × 15 reps · <span>35–40 lbs</span></div>
+      <div class="exercise-desc">Lie on your back, feet flat on floor hip-width apart. Dumbbell on your hips. Drive hips straight up, squeeze your glutes hard at the top. Lower controlled. Higher reps here — feel the burn.</div>
+    </div>
+    <button class="check-btn" onclick="toggle('ex-b2','b')">✓</button>
+  </div>
+
+  <div class="section-divider"><div class="section-divider-label">Pull</div><div class="section-divider-line"></div></div>
+
+  <div class="exercise-card" id="ex-b3">
+    <div class="exercise-info">
+      <div class="exercise-name">Chest Supported DB Row <span class="weight-note">PR: 50lb</span></div>
+      <div class="exercise-target">2 sets × 10 reps · <span>40–50 lbs</span></div>
+      <div class="exercise-desc">Bench at 45°, chest against the pad. Arms hang straight down. Row both dumbbells up toward your hips, squeeze shoulder blades together at the top. Chest stays on the pad — no cheating with momentum.</div>
+    </div>
+    <button class="check-btn" onclick="toggle('ex-b3','b')">✓</button>
+  </div>
+
+  <div class="exercise-card" id="ex-b4">
+    <div class="exercise-info">
+      <div class="exercise-name">Standing Dumbbell Curl <span class="weight-note">PR: 25lb</span></div>
+      <div class="exercise-target">2 sets × 12 reps · <span>20–25 lbs</span></div>
+      <div class="exercise-desc">Stand tall, elbows pinned at your sides — they don't move. Curl up, squeeze at the top, lower slow. Alternate arms or do both together. Don't swing your body to cheat the weight up.</div>
+    </div>
+    <button class="check-btn" onclick="toggle('ex-b4','b')">✓</button>
+  </div>
+
+  <div class="section-divider"><div class="section-divider-label">Triceps + Core</div><div class="section-divider-line"></div></div>
+
+  <div class="exercise-card" id="ex-b5">
+    <div class="exercise-info">
+      <div class="exercise-name">Tricep Extension <span class="weight-note">PR: 35lb</span></div>
+      <div class="exercise-target">2 sets × 12 reps · <span>25–30 lbs</span></div>
+      <div class="exercise-desc">Seated, hold one dumbbell with both hands overhead. Lower it behind your head, elbows pointing forward and staying still. Press back up to full extension. The only thing moving is your forearms.</div>
+    </div>
+    <button class="check-btn" onclick="toggle('ex-b5','b')">✓</button>
+  </div>
+
+  <div class="exercise-card" id="ex-b6">
+    <div class="exercise-info">
+      <div class="exercise-name">Lying Leg Raise <span class="weight-note">PR: 15 reps</span></div>
+      <div class="exercise-target">2 sets × 12–15 reps · bodyweight</div>
+      <div class="exercise-desc">Flat on your back, hands under your lower back for support. Legs straight, raise them to 90° then lower slowly — don't let them touch the floor. The slower the negative, the harder it works.</div>
+    </div>
+    <button class="check-btn" onclick="toggle('ex-b6','b')">✓</button>
+  </div>
+
+  <div class="notes-section">
+    <div class="notes-title">Day B Notes</div>
+    <div class="note-item"><strong>Deadlift:</strong> Hinge, don't squat. Feel it in hamstrings.</div>
+    <div class="note-item"><strong>Row:</strong> Chest supported — no cheating. Control the negative.</div>
+    <div class="note-item"><strong>Goal:</strong> Don't let the row drop below 40 lbs.</div>
+  </div>
+</div>
+
+<div class="complete-banner" id="complete-banner">WORKOUT COMPLETE 💪</div>
+
+<div class="btn-row">
+  <button class="finish-btn" id="finish-btn" onclick="finishWorkout()" disabled>LOG WORKOUT</button>
+  <button class="reset-btn" onclick="resetDay()">RESET</button>
+</div>
+
+<div class="notes-section" style="margin-top:16px; border-left-color: var(--accent)">
+  <div class="notes-title" style="color:var(--accent)">The Weekly Blueprint</div>
+  <div class="note-item"><strong>Daily:</strong> Morning walk — non-negotiable</div>
+  <div class="note-item"><strong>3–4x week:</strong> Alternate Day A / Day B after walk</div>
+  <div class="note-item"><strong>Cardio:</strong> Bike ride or extra walk on off days</div>
+  <div class="note-item"><strong>Lunch:</strong> Factor meal — decision already made</div>
+  <div class="note-item"><strong>Pizza Friday:</strong> 2 slices. Protect the stomach.</div>
+</div>
+
+<!-- PUSHUP TRACKER -->
+<div class="pushup-section">
+  <div class="pushup-header">
+    <div>
+      <div class="pushup-title">PUSHUP TRACKER</div>
+      <div class="pushup-sub">Grease the groove — small sets throughout the day</div>
+    </div>
+    <div class="pushup-today-count" id="pushup-today-count">0</div>
+  </div>
+
+  <div class="pushup-info">
+    <p>Do 5–10 pushups randomly throughout the day — never to failure. This is called <strong>greasing the groove</strong>: frequent small sets build the movement pattern and the muscle without taxing your recovery. Elbows at 45°, not flared wide. Shoulder stays happy as long as you stop well before it hurts.</p>
+    <p style="margin-top:6px">Log each set. Try to beat yesterday's total — even by one rep.</p>
+  </div>
+
+  <div class="pushup-input-row">
+    <input type="number" id="pushup-input" placeholder="reps this set" min="1" max="100" inputmode="numeric" />
+    <button class="pushup-log-btn" onclick="logPushups()">LOG SET</button>
+  </div>
+
+  <div id="pushup-vs-yesterday"></div>
+  <div class="pushup-sets-list" id="pushup-sets-list"></div>
+
+  <div class="pushup-history-title">Daily Totals</div>
+  <div id="pushup-history-list"></div>
+  <span class="clear-history" onclick="clearPushupHistory()">clear pushup history</span>
+</div>
+
+<div class="history-section">
+  <div class="history-title">Workout History</div>
+  <div id="history-list"></div>
+  <span class="clear-history" onclick="clearHistory()">clear history</span>
+</div>
+
+<canvas id="confetti-canvas" style="position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9999;display:none;"></canvas>
+
+<script>
+  // ---- STORAGE KEYS ----
+  const STORAGE_KEY = 'joe_workout_data';
+
+  function loadData() {
+    try {
+      return JSON.parse(localStorage.getItem(STORAGE_KEY)) || { history: [], todayCompleted: {}, todayDay: null, todayDate: null };
+    } catch(e) {
+      return { history: [], todayCompleted: {}, todayDay: null, todayDate: null };
+    }
+  }
+
+  function saveData(data) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+  }
+
+  function todayStr() {
+    return new Date().toISOString().split('T')[0];
+  }
+
+  // ---- STATE ----
+  let data = loadData();
+  let currentDay = 'a';
+
+  const dayExercises = {
+    a: ['ex-a1','ex-a2','ex-a3','ex-a4','ex-a5'],
+    b: ['ex-b1','ex-b2','ex-b3','ex-b4','ex-b5','ex-b6']
+  };
+
+  // Reset today's session if it's a new day
+  if (data.todayDate !== todayStr()) {
+    data.todayCompleted = {};
+    data.todayDay = null;
+    data.todayDate = todayStr();
+    saveData(data);
+  }
+
+  // ---- INIT ----
+  function init() {
+    updateCountdown();
+    renderWeekStrip();
+    renderHistory();
+    updateStreak();
+
+    // Restore today's day tab if already started
+    if (data.todayDay) {
+      showDay(data.todayDay, true);
+    }
+
+    // Restore checked state
+    const checks = data.todayCompleted[currentDay] || [];
+    checks.forEach(id => {
+      const card = document.getElementById(id);
+      if (card) card.classList.add('done');
+    });
+
+    updateProgress();
+  }
+
+  // ---- COUNTDOWN ----
+  function updateCountdown() {
+    const birthday = new Date('2026-07-17T00:00:00');
+    const now = new Date();
+    const days = Math.ceil((birthday - now) / 86400000);
+    document.getElementById('days-left').textContent = days > 0 ? days : 0;
+  }
+
+  // ---- WEEK STRIP ----
+  function renderWeekStrip() {
+    const strip = document.getElementById('week-strip');
+    strip.innerHTML = '';
+    const days = ['S','M','T','W','T','F','S'];
+    const today = new Date();
+    const todayDow = today.getDay();
+
+    // Get start of this week (Sunday)
+    const weekStart = new Date(today);
+    weekStart.setDate(today.getDate() - todayDow);
+
+    for (let i = 0; i < 7; i++) {
+      const d = new Date(weekStart);
+      d.setDate(weekStart.getDate() + i);
+      const dateStr = d.toISOString().split('T')[0];
+      const isToday = i === todayDow;
+
+      const histEntry = data.history.find(h => h.date === dateStr);
+
+      const pip = document.createElement('div');
+      pip.className = 'day-pip' + (histEntry ? ' worked' : '') + (isToday ? ' today' : '');
+      pip.innerHTML = `
+        <div class="pip-label">${days[i]}</div>
+        <div class="pip-dot"></div>
+        <div class="pip-type">${histEntry ? histEntry.day.toUpperCase() : ''}</div>
+      `;
+      strip.appendChild(pip);
+    }
+  }
+
+  // ---- STREAK ----
+  function updateStreak() {
+    let streak = 0;
+    const today = new Date();
+    for (let i = 0; i < 30; i++) {
+      const d = new Date(today);
+      d.setDate(today.getDate() - i);
+      const dateStr = d.toISOString().split('T')[0];
+      if (data.history.find(h => h.date === dateStr)) {
+        streak++;
+      } else if (i > 0) {
+        break;
+      }
+    }
+    document.getElementById('streak-count').textContent = streak;
+  }
+
+  // ---- TAB SWITCHING ----
+  function showDay(day, skipSave) {
+    currentDay = day;
+    document.getElementById('day-a').style.display = day === 'a' ? 'block' : 'none';
+    document.getElementById('day-b').style.display = day === 'b' ? 'block' : 'none';
+    document.getElementById('tab-a').classList.toggle('active', day === 'a');
+    document.getElementById('tab-b').classList.toggle('active', day === 'b');
+
+    // Restore checked state for this day
+    const allIds = [...dayExercises.a, ...dayExercises.b];
+    allIds.forEach(id => {
+      const card = document.getElementById(id);
+      if (card) card.classList.remove('done');
+    });
+
+    const checks = data.todayCompleted[day] || [];
+    checks.forEach(id => {
+      const card = document.getElementById(id);
+      if (card) card.classList.add('done');
+    });
+
+    if (!skipSave) {
+      data.todayDay = day;
+      saveData(data);
+    }
+
+    updateProgress();
+  }
+
+  // ---- TOGGLE EXERCISE ----
+  function toggle(id, day) {
+    const card = document.getElementById(id);
+    if (!data.todayCompleted[day]) data.todayCompleted[day] = [];
+
+    const idx = data.todayCompleted[day].indexOf(id);
+    if (idx > -1) {
+      data.todayCompleted[day].splice(idx, 1);
+      card.classList.remove('done');
+    } else {
+      data.todayCompleted[day].push(id);
+      card.classList.add('done');
+    }
+
+    saveData(data);
+    updateProgress();
+  }
+
+  // ---- PROGRESS ----
+  function updateProgress() {
+    const total = dayExercises[currentDay].length;
+    const done = (data.todayCompleted[currentDay] || []).length;
+    const pct = Math.round((done / total) * 100);
+    document.getElementById('progress-fill').style.width = pct + '%';
+    document.getElementById('pct-label').textContent = pct + '%';
+    document.getElementById('complete-banner').classList.toggle('show', done === total);
+    document.getElementById('finish-btn').disabled = done < total;
+  }
+
+  // ---- FINISH / LOG WORKOUT ----
+  function finishWorkout() {
+    const dateStr = todayStr();
+    // Don't double-log same day same type
+    const alreadyLogged = data.history.find(h => h.date === dateStr && h.day === currentDay);
+    if (!alreadyLogged) {
+      data.history.unshift({ date: dateStr, day: currentDay });
+      if (data.history.length > 60) data.history.pop();
+    }
+    saveData(data);
+    renderWeekStrip();
+    renderHistory();
+    updateStreak();
+    alert('Workout logged! Great work.');
+  }
+
+  // ---- RESET ----
+  function resetDay() {
+    data.todayCompleted[currentDay] = [];
+    saveData(data);
+    dayExercises[currentDay].forEach(id => {
+      const card = document.getElementById(id);
+      if (card) card.classList.remove('done');
+    });
+    updateProgress();
+  }
+
+  // ---- HISTORY ----
+  function renderHistory() {
+    const list = document.getElementById('history-list');
+    if (!data.history.length) {
+      list.innerHTML = '<div class="history-item"><span style="color:var(--muted);font-size:13px">No workouts logged yet</span></div>';
+      return;
+    }
+    list.innerHTML = data.history.slice(0, 14).map(h => {
+      const d = new Date(h.date + 'T12:00:00');
+      const label = d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+      return `<div class="history-item">
+        <span class="history-date">${label}</span>
+        <span class="history-type ${h.day}">Day ${h.day.toUpperCase()}</span>
+      </div>`;
+    }).join('');
+  }
+
+  function clearHistory() {
+    if (confirm('Clear all workout history?')) {
+      data.history = [];
+      data.todayCompleted = {};
+      data.todayDay = null;
+      saveData(data);
+      renderHistory();
+      renderWeekStrip();
+      updateStreak();
+      resetDay();
+    }
+  }
+
+  init();
+
+  // ---- PUSHUP TRACKER ----
+  const PUSHUP_KEY = 'joe_pushup_data';
+
+  function loadPushupData() {
+    try {
+      return JSON.parse(localStorage.getItem(PUSHUP_KEY)) || { history: [], todaySets: [], todayDate: null };
+    } catch(e) {
+      return { history: [], todaySets: [], todayDate: null };
+    }
+  }
+
+  function savePushupData(pd) {
+    localStorage.setItem(PUSHUP_KEY, JSON.stringify(pd));
+  }
+
+  let pd = loadPushupData();
+
+  // Archive yesterday if new day
+  if (pd.todayDate !== todayStr()) {
+    if (pd.todaySets && pd.todaySets.length && pd.todayDate) {
+      const total = pd.todaySets.reduce((a, b) => a + b, 0);
+      pd.history.unshift({ date: pd.todayDate, total, sets: pd.todaySets });
+      if (pd.history.length > 60) pd.history.pop();
+    }
+    pd.todaySets = [];
+    pd.todayDate = todayStr();
+    savePushupData(pd);
+  }
+
+  function getTodayPushupTotal() {
+    return (pd.todaySets || []).reduce((a, b) => a + b, 0);
+  }
+
+  function getYesterdayPushupTotal() {
+    if (!pd.history.length) return null;
+    const yesterday = new Date();
+    yesterday.setDate(yesterday.getDate() - 1);
+    const yStr = yesterday.toISOString().split('T')[0];
+    const entry = pd.history.find(h => h.date === yStr);
+    return entry ? entry.total : null;
+  }
+
+  function logPushups() {
+    const input = document.getElementById('pushup-input');
+    const val = parseInt(input.value);
+    if (!val || val < 1) return;
+
+    const prevTotal = getTodayPushupTotal();
+    pd.todaySets.push(val);
+    savePushupData(pd);
+    input.value = '';
+    input.focus();
+
+    const newTotal = getTodayPushupTotal();
+    renderPushupTracker();
+
+    // Fire confetti if we just crossed yesterday's total
+    const yTotal = getYesterdayPushupTotal();
+    if (yTotal !== null && prevTotal < yTotal && newTotal >= yTotal) {
+      fireConfetti();
+    }
+  }
+
+  function renderPushupTracker() {
+    const total = getTodayPushupTotal();
+    document.getElementById('pushup-today-count').textContent = total;
+
+    // Sets chips
+    const setsList = document.getElementById('pushup-sets-list');
+    setsList.innerHTML = (pd.todaySets || []).map((s, i) =>
+      `<div class="pushup-set-chip">Set ${i+1}: <span>${s}</span></div>`
+    ).join('');
+
+    // vs yesterday
+    const vsEl = document.getElementById('pushup-vs-yesterday');
+    const yTotal = getYesterdayPushupTotal();
+    if (yTotal === null) {
+      vsEl.innerHTML = `<span style="color:var(--muted)">No history yet — today is day one. Let's go.</span>`;
+    } else {
+      const diff = total - yTotal;
+      if (diff > 0) {
+        vsEl.innerHTML = `<span style="color:var(--green)">+${diff} ahead of yesterday (${yTotal}) 🔥</span>`;
+      } else if (diff === 0) {
+        vsEl.innerHTML = `<span style="color:var(--accent)">Matched yesterday's ${yTotal} reps 🎉</span>`;
+      } else {
+        vsEl.innerHTML = `<span style="color:var(--muted)">${Math.abs(diff)} reps behind yesterday's ${yTotal}</span>`;
+      }
+    }
+
+    // History
+    const histList = document.getElementById('pushup-history-list');
+    if (!pd.history.length) {
+      histList.innerHTML = '<div class="pushup-hist-item"><span style="color:var(--muted);font-size:12px">History shows here after your first full day</span></div>';
+      return;
+    }
+    histList.innerHTML = pd.history.slice(0, 14).map((h, i) => {
+      const d = new Date(h.date + 'T12:00:00');
+      const label = d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+      const prev = pd.history[i + 1];
+      let badge = '';
+      if (!prev) {
+        badge = '<span class="pushup-hist-badge pr">FIRST</span>';
+      } else if (h.total > prev.total) {
+        badge = `<span class="pushup-hist-badge beat">+${h.total - prev.total}</span>`;
+      } else if (h.total === prev.total) {
+        badge = '<span class="pushup-hist-badge beat">MATCHED</span>';
+      }
+      return `<div class="pushup-hist-item">
+        <span class="pushup-hist-date">${label}</span>
+        <span class="pushup-hist-total">${h.total}${badge}</span>
+      </div>`;
+    }).join('');
+  }
+
+  function clearPushupHistory() {
+    if (confirm('Clear all pushup history?')) {
+      pd = { history: [], todaySets: [], todayDate: todayStr() };
+      savePushupData(pd);
+      renderPushupTracker();
+    }
+  }
+
+  document.getElementById('pushup-input').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') logPushups();
+  });
+
+  renderPushupTracker();
+
+  // ---- CONFETTI ----
+  function fireConfetti() {
+    const canvas = document.getElementById('confetti-canvas');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    canvas.style.display = 'block';
+    const ctx = canvas.getContext('2d');
+    const colors = ['#e8ff00','#ff6b35','#4ade80','#ffffff','#f87171','#60a5fa'];
+    const pieces = Array.from({length: 130}, () => ({
+      x: Math.random() * canvas.width,
+      y: -10 - Math.random() * 100,
+      w: 6 + Math.random() * 8,
+      h: 4 + Math.random() * 4,
+      color: colors[Math.floor(Math.random() * colors.length)],
+      rot: Math.random() * Math.PI * 2,
+      vx: (Math.random() - 0.5) * 4,
+      vy: 2 + Math.random() * 4,
+      vr: (Math.random() - 0.5) * 0.2,
+    }));
+    let frame = 0;
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      pieces.forEach(p => {
+        p.x += p.vx; p.y += p.vy; p.rot += p.vr; p.vy += 0.08;
+        ctx.save();
+        ctx.translate(p.x, p.y);
+        ctx.rotate(p.rot);
+        ctx.fillStyle = p.color;
+        ctx.fillRect(-p.w/2, -p.h/2, p.w, p.h);
+        ctx.restore();
+      });
+      frame++;
+      if (frame < 140) { requestAnimationFrame(draw); }
+      else { ctx.clearRect(0, 0, canvas.width, canvas.height); canvas.style.display = 'none'; }
+    }
+    draw();
+  }
+</script>
+</body>
+</html>
