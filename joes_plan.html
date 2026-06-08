@@ -120,8 +120,14 @@
     font-size: 9px;
     color: var(--muted);
     margin-top: 2px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1px;
   }
   .day-pip.worked .pip-type { color: var(--green); }
+  .pip-workout { color: var(--green); font-size: 9px; }
+  .pip-walk { font-size: 10px; line-height: 1; }
 
   .tab-bar {
     display: flex;
@@ -750,7 +756,16 @@
   }
 
   function todayStr() {
-    return new Date().toISOString().split('T')[0];
+    const d = new Date();
+    return d.getFullYear() + '-' +
+      String(d.getMonth() + 1).padStart(2, '0') + '-' +
+      String(d.getDate()).padStart(2, '0');
+  }
+
+  function dateStrFromDate(d) {
+    return d.getFullYear() + '-' +
+      String(d.getMonth() + 1).padStart(2, '0') + '-' +
+      String(d.getDate()).padStart(2, '0');
   }
 
   // ---- STATE ----
@@ -808,24 +823,33 @@
     const today = new Date();
     const todayDow = today.getDay();
 
-    // Get start of this week (Sunday)
     const weekStart = new Date(today);
     weekStart.setDate(today.getDate() - todayDow);
 
     for (let i = 0; i < 7; i++) {
       const d = new Date(weekStart);
       d.setDate(weekStart.getDate() + i);
-      const dateStr = d.toISOString().split('T')[0];
+      const dateStr = dateStrFromDate(d);
       const isToday = i === todayDow;
 
-      const histEntry = data.history.find(h => h.date === dateStr);
+      const workoutEntry = data.history.find(h => h.date === dateStr);
+      // Also check if walk was done — wd may not be initialized yet, guard it
+      const walkDone = (typeof wd !== 'undefined') && wd.history && wd.history.find(h => h.date === dateStr);
+      // Also check today's walk state
+      const walkToday = (typeof wd !== 'undefined') && wd.todayDone && dateStr === todayStr();
+      const walked = walkDone || walkToday;
 
       const pip = document.createElement('div');
-      pip.className = 'day-pip' + (histEntry ? ' worked' : '') + (isToday ? ' today' : '');
+      pip.className = 'day-pip' + (workoutEntry ? ' worked' : '') + (isToday ? ' today' : '');
+
+      let indicators = '';
+      if (workoutEntry) indicators += `<span class="pip-workout">${workoutEntry.day.toUpperCase()}</span>`;
+      if (walked) indicators += `<span class="pip-walk">🚶</span>`;
+
       pip.innerHTML = `
         <div class="pip-label">${days[i]}</div>
         <div class="pip-dot"></div>
-        <div class="pip-type">${histEntry ? histEntry.day.toUpperCase() : ''}</div>
+        <div class="pip-type">${indicators}</div>
       `;
       strip.appendChild(pip);
     }
@@ -838,7 +862,7 @@
     for (let i = 0; i < 30; i++) {
       const d = new Date(today);
       d.setDate(today.getDate() - i);
-      const dateStr = d.toISOString().split('T')[0];
+      const dateStr = dateStrFromDate(d);
       if (data.history.find(h => h.date === dateStr)) {
         streak++;
       } else if (i > 0) {
@@ -1013,8 +1037,10 @@
     for (let i = 0; i < 60; i++) {
       const d = new Date(today);
       d.setDate(today.getDate() - i);
-      const dateStr = d.toISOString().split('T')[0];
-      if (wd.history.find(h => h.date === dateStr)) {
+      const dateStr = dateStrFromDate(d);
+      // Count today if done, or past days in history
+      const counted = (i === 0 && wd.todayDone) || wd.history.find(h => h.date === dateStr);
+      if (counted) {
         streak++;
       } else if (i > 0) {
         break;
@@ -1043,6 +1069,8 @@
     } else {
       streakLabel.innerHTML = '';
     }
+    // Refresh week strip so walk icon appears
+    renderWeekStrip();
   }
 
   renderWalkTracker();
@@ -1081,12 +1109,14 @@
   }
 
   function getYesterdayPushupTotal() {
+    // Return most recent history entry (not necessarily strictly yesterday)
     if (!pd.history.length) return null;
-    const yesterday = new Date();
-    yesterday.setDate(yesterday.getDate() - 1);
-    const yStr = yesterday.toISOString().split('T')[0];
-    const entry = pd.history.find(h => h.date === yStr);
-    return entry ? entry.total : null;
+    return pd.history[0].total;
+  }
+
+  function getYesterdayPushupDate() {
+    if (!pd.history.length) return null;
+    return pd.history[0].date;
   }
 
   function logPushups() {
@@ -1120,19 +1150,23 @@
       `<div class="pushup-set-chip">Set ${i+1}: <span>${s}</span></div>`
     ).join('');
 
-    // vs yesterday
+    // vs previous day
     const vsEl = document.getElementById('pushup-vs-yesterday');
     const yTotal = getYesterdayPushupTotal();
+    const yDate = getYesterdayPushupDate();
     if (yTotal === null) {
-      vsEl.innerHTML = `<span style="color:var(--muted)">No history yet — today is day one. Let's go.</span>`;
+      vsEl.innerHTML = `<span style="color:var(--muted)">No history yet — log your first sets below.</span>`;
     } else {
+      const prevD = yDate ? new Date(yDate + 'T12:00:00').toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' }) : 'last time';
       const diff = total - yTotal;
       if (diff > 0) {
-        vsEl.innerHTML = `<span style="color:var(--green)">+${diff} ahead of yesterday (${yTotal}) 🔥</span>`;
+        vsEl.innerHTML = `<span style="color:var(--green)">+${diff} ahead of ${prevD} (${yTotal} reps) 🔥</span>`;
+      } else if (diff === 0 && total > 0) {
+        vsEl.innerHTML = `<span style="color:var(--accent)">Matched ${prevD}'s ${yTotal} reps 🎉</span>`;
       } else if (diff === 0) {
-        vsEl.innerHTML = `<span style="color:var(--accent)">Matched yesterday's ${yTotal} reps 🎉</span>`;
+        vsEl.innerHTML = `<span style="color:var(--muted)">Last time: ${yTotal} reps (${prevD})</span>`;
       } else {
-        vsEl.innerHTML = `<span style="color:var(--muted)">${Math.abs(diff)} reps behind yesterday's ${yTotal}</span>`;
+        vsEl.innerHTML = `<span style="color:var(--muted)">${Math.abs(diff)} behind ${prevD}'s ${yTotal} reps</span>`;
       }
     }
 
