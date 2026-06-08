@@ -785,6 +785,45 @@
     saveData(data);
   }
 
+  // ---- WALK DATA (declared early so renderWeekStrip can use it) ----
+  const WALK_KEY = 'joe_walk_data';
+  function loadWalkData() {
+    try {
+      return JSON.parse(localStorage.getItem(WALK_KEY)) || { history: [], todayDone: false, todayDate: null };
+    } catch(e) {
+      return { history: [], todayDone: false, todayDate: null };
+    }
+  }
+  function saveWalkData(w) { localStorage.setItem(WALK_KEY, JSON.stringify(w)); }
+  let wd = loadWalkData();
+  if (wd.todayDate !== todayStr()) {
+    wd.todayDone = false;
+    wd.todayDate = todayStr();
+    saveWalkData(wd);
+  }
+
+  // ---- PUSHUP DATA (declared early) ----
+  const PUSHUP_KEY = 'joe_pushup_data';
+  function loadPushupData() {
+    try {
+      return JSON.parse(localStorage.getItem(PUSHUP_KEY)) || { history: [], todaySets: [], todayDate: null };
+    } catch(e) {
+      return { history: [], todaySets: [], todayDate: null };
+    }
+  }
+  function savePushupData(p) { localStorage.setItem(PUSHUP_KEY, JSON.stringify(p)); }
+  let pd = loadPushupData();
+  if (pd.todayDate !== todayStr()) {
+    if (pd.todaySets && pd.todaySets.length && pd.todayDate) {
+      const total = pd.todaySets.reduce((a, b) => a + b, 0);
+      pd.history.unshift({ date: pd.todayDate, total, sets: pd.todaySets });
+      if (pd.history.length > 60) pd.history.pop();
+    }
+    pd.todaySets = [];
+    pd.todayDate = todayStr();
+    savePushupData(pd);
+  }
+
   // ---- INIT ----
   function init() {
     updateCountdown();
@@ -833,10 +872,8 @@
       const isToday = i === todayDow;
 
       const workoutEntry = data.history.find(h => h.date === dateStr);
-      // Also check if walk was done — wd may not be initialized yet, guard it
-      const walkDone = (typeof wd !== 'undefined') && wd.history && wd.history.find(h => h.date === dateStr);
-      // Also check today's walk state
-      const walkToday = (typeof wd !== 'undefined') && wd.todayDone && dateStr === todayStr();
+      const walkDone = wd.history.find(h => h.date === dateStr);
+      const walkToday = wd.todayDone && dateStr === todayStr();
       const walked = walkDone || walkToday;
 
       const pip = document.createElement('div');
@@ -990,30 +1027,6 @@
   init();
 
 
-  // ---- WALK TRACKER ----
-  const WALK_KEY = 'joe_walk_data';
-
-  function loadWalkData() {
-    try {
-      return JSON.parse(localStorage.getItem(WALK_KEY)) || { history: [], todayDone: false, todayDate: null };
-    } catch(e) {
-      return { history: [], todayDone: false, todayDate: null };
-    }
-  }
-
-  function saveWalkData(wd) {
-    localStorage.setItem(WALK_KEY, JSON.stringify(wd));
-  }
-
-  let wd = loadWalkData();
-
-  // Reset today if new day
-  if (wd.todayDate !== todayStr()) {
-    wd.todayDone = false;
-    wd.todayDate = todayStr();
-    saveWalkData(wd);
-  }
-
   function toggleWalk() {
     wd.todayDone = !wd.todayDone;
     if (wd.todayDone) {
@@ -1074,35 +1087,6 @@
   }
 
   renderWalkTracker();
-
-  // ---- PUSHUP TRACKER ----
-  const PUSHUP_KEY = 'joe_pushup_data';
-
-  function loadPushupData() {
-    try {
-      return JSON.parse(localStorage.getItem(PUSHUP_KEY)) || { history: [], todaySets: [], todayDate: null };
-    } catch(e) {
-      return { history: [], todaySets: [], todayDate: null };
-    }
-  }
-
-  function savePushupData(pd) {
-    localStorage.setItem(PUSHUP_KEY, JSON.stringify(pd));
-  }
-
-  let pd = loadPushupData();
-
-  // Archive yesterday if new day
-  if (pd.todayDate !== todayStr()) {
-    if (pd.todaySets && pd.todaySets.length && pd.todayDate) {
-      const total = pd.todaySets.reduce((a, b) => a + b, 0);
-      pd.history.unshift({ date: pd.todayDate, total, sets: pd.todaySets });
-      if (pd.history.length > 60) pd.history.pop();
-    }
-    pd.todaySets = [];
-    pd.todayDate = todayStr();
-    savePushupData(pd);
-  }
 
   function getTodayPushupTotal() {
     return (pd.todaySets || []).reduce((a, b) => a + b, 0);
