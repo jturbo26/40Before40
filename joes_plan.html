@@ -504,6 +504,115 @@
   .walk-btn:hover { border-color: var(--green); color: var(--green); }
   .walk-tracker.done .walk-btn { background: var(--green); border-color: var(--green); color: #000; }
   .walk-tracker.done .walk-title { color: var(--green); }
+
+  /* PUSHUP TRACKER v2 */
+  .pushup-sets-today { text-align: right; }
+  .pushup-sets-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 52px;
+    color: var(--accent2);
+    line-height: 1;
+  }
+  .pushup-sets-label { font-size: 10px; color: var(--muted); text-align: right; text-transform: uppercase; letter-spacing: 1px; }
+
+  .pushup-max-row {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 14px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 12px 14px;
+  }
+  .pushup-max-info, .pushup-working-info { flex: 1; }
+  .pushup-max-label { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin-bottom: 2px; }
+  .pushup-max-val {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 32px;
+    color: var(--text);
+    line-height: 1;
+  }
+  .pushup-working-val {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 32px;
+    color: var(--accent2);
+    line-height: 1;
+  }
+  .pushup-max-btn {
+    padding: 8px 12px;
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    color: var(--muted);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 13px;
+    letter-spacing: 1px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.15s;
+  }
+  .pushup-max-btn:hover { border-color: var(--accent2); color: var(--accent2); }
+
+  .pushup-goal-bar-wrap {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 12px 14px;
+    margin-bottom: 12px;
+  }
+  .pushup-goal-header {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+  .pushup-goal-track {
+    height: 8px;
+    background: var(--border);
+    border-radius: 4px;
+    overflow: visible;
+    position: relative;
+    margin-bottom: 4px;
+  }
+  .pushup-goal-fill {
+    height: 100%;
+    background: var(--accent2);
+    border-radius: 4px;
+    transition: width 0.3s ease;
+  }
+  .pushup-goal-marker {
+    position: absolute;
+    top: -3px;
+    width: 2px;
+    height: 14px;
+    background: var(--muted);
+    transform: translateX(-50%);
+    border-radius: 1px;
+  }
+  .pushup-goal-ticks {
+    display: flex;
+    justify-content: space-between;
+    font-size: 10px;
+    color: var(--muted);
+  }
+
+  .pushup-log-btn-big {
+    width: 100%;
+    padding: 16px;
+    background: var(--accent2);
+    border: none;
+    border-radius: 6px;
+    color: #fff;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 2px;
+    cursor: pointer;
+    margin-bottom: 12px;
+    transition: opacity 0.15s;
+  }
+  .pushup-log-btn-big:active { opacity: 0.75; }
 </style>
 </head>
 <body>
@@ -539,28 +648,54 @@
 
 <!-- PUSHUP TRACKER -->
 <div class="pushup-section" style="margin-top:0; border-top:none; padding-top:0;">
+
   <div class="pushup-header">
     <div>
       <div class="pushup-title">PUSHUP TRACKER</div>
-      <div class="pushup-sub">Grease the groove — small sets throughout the day</div>
+      <div class="pushup-sub">Grease the groove · 5–10 sets/day at 50% max</div>
     </div>
-    <div class="pushup-today-count" id="pushup-today-count">0</div>
+    <div class="pushup-sets-today">
+      <div class="pushup-sets-num" id="pushup-sets-today">0</div>
+      <div class="pushup-sets-label">sets today</div>
+    </div>
   </div>
 
   <div class="pushup-info">
-    <p>Do 5–10 pushups randomly throughout the day — never to failure. This is called <strong>greasing the groove</strong>: frequent small sets build the movement pattern and the muscle without taxing your recovery. Elbows at 45°, not flared wide. Shoulder stays happy as long as you stop well before it hurts.</p>
-    <p style="margin-top:6px">Log each set. Try to beat yesterday's total — even by one rep.</p>
+    <p><strong>The protocol:</strong> Never go to failure. Do sets at 50% of your max rep count, scattered throughout the day. Aim for 5–10 sets. The goal is to practice the movement while fresh — this grooves the neural pattern and builds strength without fatigue.</p>
+    <p style="margin-top:6px">Elbows at 45°, not flared. Stop well before it burns. Every set should feel easy.</p>
   </div>
 
-  <div class="pushup-input-row">
-    <input type="number" id="pushup-input" placeholder="reps this set" min="1" max="100" inputmode="numeric" />
-    <button class="pushup-log-btn" onclick="logPushups()">LOG SET</button>
+  <div class="pushup-max-row">
+    <div class="pushup-max-info">
+      <div class="pushup-max-label">Current Max</div>
+      <div class="pushup-max-val" id="pushup-max-display">--</div>
+    </div>
+    <div class="pushup-working-info">
+      <div class="pushup-max-label">Working Set (50%)</div>
+      <div class="pushup-working-val" id="pushup-working-display">--</div>
+    </div>
+    <button class="pushup-max-btn" onclick="updateMax()">UPDATE MAX</button>
   </div>
 
-  <div id="pushup-vs-yesterday"></div>
+  <div class="pushup-goal-bar-wrap">
+    <div class="pushup-goal-header">
+      <span id="pushup-goal-label">0 / 10 sets</span>
+      <span id="pushup-goal-status"></span>
+    </div>
+    <div class="pushup-goal-track">
+      <div class="pushup-goal-fill" id="pushup-goal-fill" style="width:0%"></div>
+      <div class="pushup-goal-marker" style="left:50%"></div>
+    </div>
+    <div class="pushup-goal-ticks">
+      <span>0</span><span>5</span><span>10</span>
+    </div>
+  </div>
+
+  <button class="pushup-log-btn-big" onclick="logSet()">LOG A SET</button>
+
   <div class="pushup-sets-list" id="pushup-sets-list"></div>
 
-  <div class="pushup-history-title">Daily Totals</div>
+  <div class="pushup-history-title">Daily History</div>
   <div id="pushup-history-list"></div>
   <span class="clear-history" onclick="clearPushupHistory()">clear pushup history</span>
 </div>
@@ -806,7 +941,7 @@
   const PUSHUP_KEY = 'joe_pushup_data';
   function loadPushupData() {
     try {
-      return JSON.parse(localStorage.getItem(PUSHUP_KEY)) || { history: [], todaySets: [], todayDate: null };
+      return JSON.parse(localStorage.getItem(PUSHUP_KEY)) || { history: [], todaySets: [], todayDate: null, currentMax: 10 };
     } catch(e) {
       return { history: [], todaySets: [], todayDate: null };
     }
@@ -816,7 +951,7 @@
   if (pd.todayDate !== todayStr()) {
     if (pd.todaySets && pd.todaySets.length && pd.todayDate) {
       const total = pd.todaySets.reduce((a, b) => a + b, 0);
-      pd.history.unshift({ date: pd.todayDate, total, sets: pd.todaySets });
+      pd.history.unshift({ date: pd.todayDate, total, sets: [...pd.todaySets], maxAtTime: pd.currentMax || null });
       if (pd.history.length > 60) pd.history.pop();
     }
     pd.todaySets = [];
@@ -1088,12 +1223,19 @@
 
   renderWalkTracker();
 
+  function getTodaySetCount() {
+    return (pd.todaySets || []).length;
+  }
+
   function getTodayPushupTotal() {
     return (pd.todaySets || []).reduce((a, b) => a + b, 0);
   }
 
+  function getWorkingSet() {
+    return Math.floor((pd.currentMax || 10) / 2);
+  }
+
   function getYesterdayPushupTotal() {
-    // Return most recent history entry (not necessarily strictly yesterday)
     if (!pd.history.length) return null;
     return pd.history[0].total;
   }
@@ -1103,95 +1245,91 @@
     return pd.history[0].date;
   }
 
-  function logPushups() {
-    const input = document.getElementById('pushup-input');
-    const val = parseInt(input.value);
-    if (!val || val < 1) return;
-
-    const prevTotal = getTodayPushupTotal();
-    pd.todaySets.push(val);
+  function logSet() {
+    const working = getWorkingSet();
+    if (!working || working < 1) return;
+    const prevSets = getTodaySetCount();
+    pd.todaySets.push(working);
     savePushupData(pd);
-    input.value = '';
-    input.focus();
-
-    const newTotal = getTodayPushupTotal();
     renderPushupTracker();
+    // Confetti at 5 sets (minimum goal hit)
+    if (prevSets < 5 && getTodaySetCount() >= 5) fireConfetti();
+    // Confetti again at 10 sets (full goal)
+    if (prevSets < 10 && getTodaySetCount() >= 10) fireConfetti();
+  }
 
-    // Fire confetti if we just crossed yesterday's total
-    const yTotal = getYesterdayPushupTotal();
-    if (yTotal !== null && prevTotal < yTotal && newTotal >= yTotal) {
-      fireConfetti();
-    }
+  function updateMax() {
+    const input = prompt('Enter your new max pushup count (fresh, fully rested):');
+    const val = parseInt(input);
+    if (!val || val < 1) return;
+    pd.currentMax = val;
+    savePushupData(pd);
+    renderPushupTracker();
+    alert('Max updated to ' + val + '. Working set is now ' + Math.floor(val/2) + ' reps.');
   }
 
   function renderPushupTracker() {
+    const sets = getTodaySetCount();
     const total = getTodayPushupTotal();
-    document.getElementById('pushup-today-count').textContent = total;
+    const max = pd.currentMax || 10;
+    const working = getWorkingSet();
+
+    document.getElementById('pushup-sets-today').textContent = sets;
+    document.getElementById('pushup-max-display').textContent = max;
+    document.getElementById('pushup-working-display').textContent = working;
+
+    // Goal bar (0-10 sets)
+    const pct = Math.min(100, (sets / 10) * 100);
+    document.getElementById('pushup-goal-fill').style.width = pct + '%';
+    document.getElementById('pushup-goal-label').textContent = sets + ' / 10 sets today';
+
+    const statusEl = document.getElementById('pushup-goal-status');
+    if (sets >= 10) {
+      statusEl.innerHTML = '<span style="color:var(--green)">Full goal! 🔥</span>';
+    } else if (sets >= 5) {
+      statusEl.innerHTML = '<span style="color:var(--accent)">Minimum hit ✓</span>';
+    } else {
+      statusEl.innerHTML = '<span style="color:var(--muted)">' + (5 - sets) + ' more to minimum</span>';
+    }
 
     // Sets chips
     const setsList = document.getElementById('pushup-sets-list');
     setsList.innerHTML = (pd.todaySets || []).map((s, i) =>
-      `<div class="pushup-set-chip">Set ${i+1}: <span>${s}</span></div>`
+      `<div class="pushup-set-chip">Set ${i+1}: <span>${s} reps</span></div>`
     ).join('');
-
-    // vs previous day
-    const vsEl = document.getElementById('pushup-vs-yesterday');
-    const yTotal = getYesterdayPushupTotal();
-    const yDate = getYesterdayPushupDate();
-    if (yTotal === null) {
-      vsEl.innerHTML = `<span style="color:var(--muted)">No history yet — log your first sets below.</span>`;
-    } else {
-      const prevD = yDate ? new Date(yDate + 'T12:00:00').toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' }) : 'last time';
-      const diff = total - yTotal;
-      if (diff > 0) {
-        vsEl.innerHTML = `<span style="color:var(--green)">+${diff} ahead of ${prevD} (${yTotal} reps) 🔥</span>`;
-      } else if (diff === 0 && total > 0) {
-        vsEl.innerHTML = `<span style="color:var(--accent)">Matched ${prevD}'s ${yTotal} reps 🎉</span>`;
-      } else if (diff === 0) {
-        vsEl.innerHTML = `<span style="color:var(--muted)">Last time: ${yTotal} reps (${prevD})</span>`;
-      } else {
-        vsEl.innerHTML = `<span style="color:var(--muted)">${Math.abs(diff)} behind ${prevD}'s ${yTotal} reps</span>`;
-      }
-    }
 
     // History
     const histList = document.getElementById('pushup-history-list');
     if (!pd.history.length) {
-      histList.innerHTML = '<div class="pushup-hist-item"><span style="color:var(--muted);font-size:12px">History shows here after your first full day</span></div>';
+      histList.innerHTML = '<div class="pushup-hist-item"><span style="color:var(--muted);font-size:12px">History appears after your first full day</span></div>';
       return;
     }
-    histList.innerHTML = pd.history.slice(0, 14).map((h, i) => {
+    histList.innerHTML = pd.history.slice(0, 14).map((h) => {
       const d = new Date(h.date + 'T12:00:00');
       const label = d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
-      const prev = pd.history[i + 1];
+      const setCount = h.sets ? h.sets.length : '?';
+      const maxLabel = h.maxAtTime ? ` · max ${h.maxAtTime}` : '';
       let badge = '';
-      if (!prev) {
-        badge = '<span class="pushup-hist-badge pr">FIRST</span>';
-      } else if (h.total > prev.total) {
-        badge = `<span class="pushup-hist-badge beat">+${h.total - prev.total}</span>`;
-      } else if (h.total === prev.total) {
-        badge = '<span class="pushup-hist-badge beat">MATCHED</span>';
-      }
+      if (setCount >= 10) badge = '<span class="pushup-hist-badge beat">FULL</span>';
+      else if (setCount >= 5) badge = '<span class="pushup-hist-badge pr">MIN</span>';
       return `<div class="pushup-hist-item">
-        <span class="pushup-hist-date">${label}</span>
-        <span class="pushup-hist-total">${h.total}${badge}</span>
+        <span class="pushup-hist-date">${label}${maxLabel}</span>
+        <span class="pushup-hist-total">${setCount} sets<span style="font-size:11px;color:var(--muted);margin-left:4px">(${h.total}r)</span>${badge}</span>
       </div>`;
     }).join('');
   }
 
   function clearPushupHistory() {
     if (confirm('Clear all pushup history?')) {
-      pd = { history: [], todaySets: [], todayDate: todayStr() };
+      const savedMax = pd.currentMax;
+      pd = { history: [], todaySets: [], todayDate: todayStr(), currentMax: savedMax };
       savePushupData(pd);
       renderPushupTracker();
     }
   }
 
-  document.getElementById('pushup-input').addEventListener('keydown', function(e) {
-    if (e.key === 'Enter') logPushups();
-  });
-
   renderPushupTracker();
+
 
   // ---- CONFETTI ----
   function fireConfetti() {
