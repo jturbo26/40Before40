@@ -613,6 +613,233 @@
     transition: opacity 0.15s;
   }
   .pushup-log-btn-big:active { opacity: 0.75; }
+
+  /* WEIGHT LOG */
+  .weight-log {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 12px 14px;
+    margin-bottom: 14px;
+  }
+  .weight-log-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+  }
+  .weight-log-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 16px;
+    letter-spacing: 1px;
+    color: var(--text);
+  }
+  .weight-log-latest {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+  .weight-log-latest span { color: var(--accent); font-weight: 600; }
+  .weight-input-row { display: flex; gap: 6px; align-items: center; }
+  .weight-input-row input {
+    width: 80px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    color: var(--text);
+    font-size: 16px;
+    padding: 6px 10px;
+    font-family: 'Bebas Neue', sans-serif;
+    outline: none;
+    text-align: center;
+    -moz-appearance: textfield;
+  }
+  .weight-input-row input::-webkit-outer-spin-button,
+  .weight-input-row input::-webkit-inner-spin-button { -webkit-appearance: none; }
+  .weight-input-row input:focus { border-color: var(--accent); }
+  .weight-log-btn {
+    padding: 6px 12px;
+    background: var(--accent2);
+    border: none;
+    border-radius: 4px;
+    color: #fff;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 14px;
+    letter-spacing: 1px;
+    cursor: pointer;
+  }
+  .weight-strip {
+    display: flex;
+    gap: 4px;
+    margin-top: 10px;
+    overflow-x: auto;
+  }
+  .weight-pip {
+    flex: 0 0 auto;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 4px 8px;
+    text-align: center;
+    min-width: 52px;
+  }
+  .weight-pip-date { font-size: 9px; color: var(--muted); }
+  .weight-pip-val { font-family: 'Bebas Neue', sans-serif; font-size: 15px; color: var(--accent); line-height: 1.2; }
+  .weight-pip.today { border-color: var(--accent); }
+
+  /* COACH TAB */
+  #coach-section { margin-top: 0; }
+
+  .coach-setup-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 24px 20px;
+    text-align: center;
+    margin-top: 10px;
+  }
+  .coach-setup-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    letter-spacing: 2px;
+    color: var(--accent);
+    margin-bottom: 10px;
+  }
+  .coach-setup-desc {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.6;
+    margin-bottom: 16px;
+  }
+  .coach-setup-box input {
+    width: 100%;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    color: var(--text);
+    font-size: 13px;
+    padding: 10px 12px;
+    outline: none;
+    margin-bottom: 10px;
+    font-family: 'DM Sans', sans-serif;
+    box-sizing: border-box;
+  }
+  .coach-setup-box input:focus { border-color: var(--accent2); }
+  .coach-save-btn {
+    width: 100%;
+    padding: 12px;
+    background: var(--accent2);
+    border: none;
+    border-radius: 4px;
+    color: #fff;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px;
+    letter-spacing: 1px;
+    cursor: pointer;
+    margin-bottom: 12px;
+  }
+  .coach-setup-link { font-size: 11px; color: var(--muted); }
+  .coach-setup-link a { color: var(--accent2); text-decoration: none; }
+
+  .coach-messages {
+    min-height: 200px;
+    max-height: 60vh;
+    overflow-y: auto;
+    padding: 4px 0;
+    margin-bottom: 12px;
+  }
+  .coach-msg {
+    margin-bottom: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .coach-msg-role {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--muted);
+    font-weight: 600;
+  }
+  .coach-msg.user .coach-msg-role { color: var(--accent2); text-align: right; }
+  .coach-msg-bubble {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 10px 14px;
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--text);
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+  .coach-msg.user .coach-msg-bubble {
+    background: var(--surface2);
+    border-color: var(--accent2);
+    text-align: right;
+  }
+  .coach-msg.loading .coach-msg-bubble {
+    color: var(--muted);
+    font-style: italic;
+  }
+  .coach-input-area {
+    display: flex;
+    gap: 8px;
+    align-items: flex-end;
+    margin-bottom: 8px;
+  }
+  .coach-input-area textarea {
+    flex: 1;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text);
+    font-size: 14px;
+    padding: 10px 12px;
+    font-family: 'DM Sans', sans-serif;
+    resize: none;
+    outline: none;
+    line-height: 1.5;
+  }
+  .coach-input-area textarea:focus { border-color: var(--accent2); }
+  .coach-send-btn {
+    padding: 10px 16px;
+    background: var(--accent2);
+    border: none;
+    border-radius: 6px;
+    color: #fff;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 18px;
+    letter-spacing: 1px;
+    cursor: pointer;
+    white-space: nowrap;
+    align-self: flex-end;
+    transition: opacity 0.15s;
+  }
+  .coach-send-btn:disabled { opacity: 0.4; cursor: default; }
+  .coach-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 11px;
+    color: var(--muted);
+    padding-top: 4px;
+    border-top: 1px solid var(--border);
+  }
+  .coach-link { cursor: pointer; text-decoration: underline; color: var(--muted); }
+  .coach-link:hover { color: var(--red); }
+  .coach-welcome {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent2);
+    border-radius: 6px;
+    padding: 14px 16px;
+    margin-bottom: 16px;
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+  .coach-welcome strong { color: var(--text); display: block; margin-bottom: 4px; font-size: 14px; }
 </style>
 </head>
 <body>
@@ -632,6 +859,21 @@
     <div class="streak-number" id="streak-count">0</div>
     <div class="streak-label">🔥 Streak</div>
   </div>
+</div>
+
+<!-- WEIGHT LOG -->
+<div class="weight-log">
+  <div class="weight-log-header">
+    <div>
+      <div class="weight-log-title">⚖️ WEIGHT LOG</div>
+      <div class="weight-log-latest" id="weight-latest">tap to log today</div>
+    </div>
+    <div class="weight-input-row">
+      <input type="number" id="weight-input" placeholder="lbs" step="0.1" inputmode="decimal" />
+      <button class="weight-log-btn" onclick="logWeight()">LOG</button>
+    </div>
+  </div>
+  <div class="weight-strip" id="weight-strip"></div>
 </div>
 
 <div class="week-strip" id="week-strip"></div>
@@ -703,9 +945,10 @@
 <div class="tab-bar">
   <div class="tab active" id="tab-a" onclick="showDay('a')">DAY A<small>Push + Legs</small></div>
   <div class="tab" id="tab-b" onclick="showDay('b')">DAY B<small>Pull + Hinge</small></div>
+  <div class="tab" id="tab-coach" onclick="showDay('coach')">COACH<small>AI Trainer</small></div>
 </div>
 
-<div class="progress-bar-wrap">
+<div class="progress-bar-wrap" id="progress-bar-wrap">
   <div class="progress-header">
     <div class="progress-label">Today's Progress</div>
     <div class="progress-pct" id="pct-label">0%</div>
@@ -852,12 +1095,12 @@
 
 <div class="complete-banner" id="complete-banner">WORKOUT COMPLETE 💪</div>
 
-<div class="btn-row">
+<div class="btn-row" id="btn-row">
   <button class="finish-btn" id="finish-btn" onclick="finishWorkout()" disabled>LOG WORKOUT</button>
   <button class="reset-btn" onclick="resetDay()">RESET</button>
 </div>
 
-<div class="notes-section" style="margin-top:16px; border-left-color: var(--accent)">
+<div class="notes-section" id="blueprint-notes" style="margin-top:16px; border-left-color: var(--accent)">
   <div class="notes-title" style="color:var(--accent)">The Weekly Blueprint</div>
   <div class="note-item"><strong>Daily:</strong> Morning walk — non-negotiable</div>
   <div class="note-item"><strong>3–4x week:</strong> Alternate Day A / Day B after walk</div>
@@ -866,10 +1109,43 @@
   <div class="note-item"><strong>Pizza Friday:</strong> 2 slices. Protect the stomach.</div>
 </div>
 
-<div class="history-section">
+<div class="history-section" id="workout-history-section">
   <div class="history-title">Workout History</div>
   <div id="history-list"></div>
   <span class="clear-history" onclick="clearHistory()">clear history</span>
+</div>
+
+
+<!-- COACH SECTION -->
+<div id="coach-section" style="display:none">
+
+  <!-- API Key Setup -->
+  <div id="coach-setup" style="display:none">
+    <div class="coach-setup-box">
+      <div class="coach-setup-title">CONNECT YOUR COACH</div>
+      <div class="coach-setup-desc">Enter your Anthropic API key. It saves only on this device and goes directly to Anthropic — never stored anywhere else. Get one at console.anthropic.com for a few dollars of credit that'll last months.</div>
+      <input type="password" id="api-key-input" placeholder="sk-ant-api03-..." autocomplete="off" />
+      <button class="coach-save-btn" onclick="saveApiKey()">SAVE & START COACHING</button>
+      <div class="coach-setup-link">Need a key? <a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a> → API Keys → Create Key</div>
+    </div>
+  </div>
+
+  <!-- Chat Interface -->
+  <div id="coach-chat-wrap">
+    <div id="coach-messages" class="coach-messages"></div>
+    <div class="coach-input-area">
+      <textarea id="coach-input" placeholder="Ask your coach anything..." rows="2"></textarea>
+      <button class="coach-send-btn" id="coach-send-btn" onclick="sendCoachMessage()">SEND</button>
+    </div>
+    <div class="coach-footer">
+      <span id="coach-msg-count" class="coach-msg-count"></span>
+      <span>
+        <span class="coach-link" onclick="showApiKeySetup()">update key</span> ·
+        <span class="coach-link" onclick="clearCoachHistory()">clear chat</span>
+      </span>
+    </div>
+  </div>
+
 </div>
 
 <canvas id="confetti-canvas" style="position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9999;display:none;"></canvas>
@@ -1047,10 +1323,27 @@
   // ---- TAB SWITCHING ----
   function showDay(day, skipSave) {
     currentDay = day;
-    document.getElementById('day-a').style.display = day === 'a' ? 'block' : 'none';
-    document.getElementById('day-b').style.display = day === 'b' ? 'block' : 'none';
+    const isCoach = day === 'coach';
+
+    // Tab highlights
     document.getElementById('tab-a').classList.toggle('active', day === 'a');
     document.getElementById('tab-b').classList.toggle('active', day === 'b');
+    document.getElementById('tab-coach').classList.toggle('active', isCoach);
+
+    // Show/hide workout vs coach
+    document.getElementById('day-a').style.display = (!isCoach && day === 'a') ? 'block' : 'none';
+    document.getElementById('day-b').style.display = (!isCoach && day === 'b') ? 'block' : 'none';
+    document.getElementById('coach-section').style.display = isCoach ? 'block' : 'none';
+    document.getElementById('progress-bar-wrap') && (document.getElementById('progress-bar-wrap').style.display = isCoach ? 'none' : 'block');
+    document.getElementById('complete-banner').style.display = 'none';
+    document.getElementById('btn-row') && (document.getElementById('btn-row').style.display = isCoach ? 'none' : 'flex');
+    document.getElementById('blueprint-notes') && (document.getElementById('blueprint-notes').style.display = isCoach ? 'none' : 'block');
+    document.getElementById('workout-history-section') && (document.getElementById('workout-history-section').style.display = isCoach ? 'none' : 'block');
+
+    if (isCoach) {
+      renderCoachSection();
+      return;
+    }
 
     // Restore checked state for this day
     const allIds = [...dayExercises.a, ...dayExercises.b];
@@ -1368,6 +1661,318 @@
     }
     draw();
   }
+
+
+  // ================================================================
+  // WEIGHT LOG
+  // ================================================================
+  const WEIGHT_KEY = 'joe_weight_data';
+
+  function loadWeightData() {
+    try {
+      return JSON.parse(localStorage.getItem(WEIGHT_KEY)) || { history: [] };
+    } catch(e) { return { history: [] }; }
+  }
+  function saveWeightData(w) { localStorage.setItem(WEIGHT_KEY, JSON.stringify(w)); }
+
+  let wt = loadWeightData();
+
+  function logWeight() {
+    const input = document.getElementById('weight-input');
+    const val = parseFloat(input.value);
+    if (!val || val < 100 || val > 500) return;
+    const today = todayStr();
+    // Update or insert today's entry
+    const existing = wt.history.findIndex(h => h.date === today);
+    if (existing > -1) wt.history[existing].weight = val;
+    else wt.history.unshift({ date: today, weight: val });
+    wt.history.sort((a, b) => b.date.localeCompare(a.date));
+    if (wt.history.length > 90) wt.history.pop();
+    saveWeightData(wt);
+    input.value = '';
+    renderWeightLog();
+  }
+
+  function renderWeightLog() {
+    const latest = wt.history[0];
+    const todayEntry = wt.history.find(h => h.date === todayStr());
+    const latestEl = document.getElementById('weight-latest');
+    if (latestEl) {
+      if (todayEntry) {
+        latestEl.innerHTML = 'Today: <span>' + todayEntry.weight + ' lbs</span>';
+      } else if (latest) {
+        const d = new Date(latest.date + 'T12:00:00');
+        const label = d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+        latestEl.innerHTML = 'Last: <span>' + latest.weight + ' lbs</span> (' + label + ')';
+      } else {
+        latestEl.innerHTML = 'tap to log today';
+      }
+    }
+    const strip = document.getElementById('weight-strip');
+    if (!strip || !wt.history.length) return;
+    strip.innerHTML = wt.history.slice(0, 14).map(h => {
+      const d = new Date(h.date + 'T12:00:00');
+      const label = d.toLocaleDateString('en-US', { weekday: 'short', day: 'numeric' });
+      const isToday = h.date === todayStr();
+      return '<div class="weight-pip' + (isToday ? ' today' : '') + '">' +
+        '<div class="weight-pip-date">' + label + '</div>' +
+        '<div class="weight-pip-val">' + h.weight + '</div>' +
+        '</div>';
+    }).join('');
+  }
+
+  renderWeightLog();
+
+  // ================================================================
+  // COACH
+  // ================================================================
+  const COACH_KEY = 'joe_coach_messages';
+  const API_KEY_STORE = 'joe_api_key';
+
+  function loadCoachMessages() {
+    try { return JSON.parse(localStorage.getItem(COACH_KEY)) || []; }
+    catch(e) { return []; }
+  }
+  function saveCoachMessages() {
+    localStorage.setItem(COACH_KEY, JSON.stringify(coachMessages));
+  }
+
+  let coachMessages = loadCoachMessages();
+
+  function buildSystemPrompt() {
+    const recentWeights = wt.history.slice(0, 30)
+      .map(w => w.date + ': ' + w.weight + 'lbs').join(', ');
+    const recentWorkouts = data.history.slice(0, 20)
+      .map(w => w.date + ': Day ' + w.day.toUpperCase()).join(', ');
+    const walkStreakCount = getWalkStreak();
+    const pushupMax = pd.currentMax || 10;
+    const pushupWorking = getWorkingSet();
+    const todayPushupSets = getTodaySetCount();
+    const todayWalked = wd.todayDone;
+
+    return [
+      "You are Joe's personal AI fitness and nutrition coach, built into his workout tracking app.",
+      "",
+      "ABOUT JOE:",
+      "- 39 years old, turning 40 on July 17 2026. His goal is called '40 Before 40'",
+      "- 6 foot 2, working toward fat loss and body recomposition",
+      "- Software developer/tech lead, works from home about 60 hrs/week, Westland Michigan",
+      "- Wife Brittany (also recently started lifting), three kids including 4-year-old Jack",
+      "- Home gym: adjustable dumbbells up to 60 lbs, bench, rowing machine (rarely used)",
+      "",
+      "CURRENT PROGRAM:",
+      "- Daily morning walks (primary fat-burning tool, non-negotiable habit)",
+      "- Maintenance lifting 3-4x/week alternating Day A (goblet squat, incline bench neutral grip, seated OHP, lateral raise, hollow hold) and Day B (dumbbell deadlift, glute bridge, chest supported row, curls, tricep extension, leg raises)",
+      "- Greasing the groove pushups: current max " + pushupMax + " reps, working set " + pushupWorking + " reps, target 5-10 sets/day — never to failure, sets spread throughout the day",
+      "- Just completed two consecutive Gymverse 5-week progressive overload programs. Peak lifts: goblet squat 60lb, deadlift 60lb, bench 45lb, OHP 30lb, row 50lb",
+      "- Left shoulder is a recurring issue — incline neutral grip bench is the workaround, stop before impingement",
+      "",
+      "NUTRITION:",
+      "- Factor meal delivery for weekday lunches (removes decision fatigue)",
+      "- Whole foods focus: eggs, ground beef 93%, chicken, ham, rice, potatoes, fruit",
+      "- Protein target around 180g/day, not stressing over hitting it exactly",
+      "- Confirmed dairy sensitivity — bloating within 1hr of dairy. Lactaid pills are the workaround",
+      "- Diet soda and sugar alcohols (Quest bars/chips) also likely gut contributors",
+      "- Pizza Friday is a weekly tradition — trying to limit to 2 slices",
+      "- Biggest challenge: weekend eating, historically driven by cannabis use triggering late-night overeating",
+      "- Foods he likes: ham, eggs, greek yogurt (with Lactaid), peanut butter, cheese, beef, chicken, beef jerky",
+      "- Foods he will not eat: fish, cottage cheese, turkey",
+      "",
+      "LIVE DATA FROM APP (updated each conversation):",
+      "- Weight history (newest first): " + (recentWeights || 'not yet logged'),
+      "- Walk streak: " + walkStreakCount + " days" + (todayWalked ? " — walked today" : ""),
+      "- Pushup sets today: " + todayPushupSets,
+      "- Recent workouts: " + (recentWorkouts || 'none logged yet'),
+      "",
+      "HOW TO TALK TO JOE:",
+      "- Direct and honest — no sugarcoating, no corporate fitness speak",
+      "- Casual tone, he is self-aware and does not need hand-holding",
+      "- Practical in-the-moment advice over theory",
+      "- He responds well to cause-and-effect analysis",
+      "- Keep responses concise and mobile-friendly — he reads this on his phone",
+      "- Do not lecture about cannabis — he is aware, just note its pattern when relevant",
+      "",
+      "Today is " + todayStr()
+    ].join("\n");
+  }
+
+  function renderCoachSection() {
+    const apiKey = localStorage.getItem(API_KEY_STORE);
+    const setup = document.getElementById('coach-setup');
+    const chatWrap = document.getElementById('coach-chat-wrap');
+    if (!apiKey) {
+      if (setup) setup.style.display = 'block';
+      if (chatWrap) chatWrap.style.display = 'none';
+    } else {
+      if (setup) setup.style.display = 'none';
+      if (chatWrap) chatWrap.style.display = 'block';
+      renderCoachChat();
+    }
+  }
+
+  function showApiKeySetup() {
+    const setup = document.getElementById('coach-setup');
+    const chatWrap = document.getElementById('coach-chat-wrap');
+    if (setup) setup.style.display = 'block';
+    if (chatWrap) chatWrap.style.display = 'none';
+  }
+
+  function saveApiKey() {
+    const input = document.getElementById('api-key-input');
+    const key = (input.value || '').trim();
+    if (!key.startsWith('sk-ant-')) {
+      alert("That does not look like a valid Anthropic API key. It should start with sk-ant-");
+      return;
+    }
+    localStorage.setItem(API_KEY_STORE, key);
+    input.value = '';
+    renderCoachSection();
+  }
+
+  function renderCoachChat() {
+    const container = document.getElementById('coach-messages');
+    if (!container) return;
+
+    if (!coachMessages.length) {
+      container.innerHTML = [
+        '<div class="coach-welcome">',
+        '<strong>Hey Joe, your coach is ready.</strong>',
+        'I have your full program, weight history, and current stats loaded. ',
+        'Ask me anything — nutrition, workouts, troubleshooting, what to eat right now. ',
+        'Direct answers, not generic advice.',
+        '</div>'
+      ].join('');
+    } else {
+      container.innerHTML = coachMessages.map(m => {
+        const isUser = m.role === 'user';
+        return '<div class="coach-msg ' + (isUser ? 'user' : 'assistant') + '">' +
+          '<div class="coach-msg-role">' + (isUser ? 'You' : 'Coach') + '</div>' +
+          '<div class="coach-msg-bubble">' + escapeHtml(m.content) + '</div>' +
+          '</div>';
+      }).join('');
+      // Scroll to bottom
+      setTimeout(() => { container.scrollTop = container.scrollHeight; }, 50);
+    }
+
+    const countEl = document.getElementById('coach-msg-count');
+    if (countEl) {
+      const count = coachMessages.length;
+      countEl.textContent = count ? count + ' messages' : '';
+    }
+  }
+
+  function escapeHtml(str) {
+    return str
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+
+  function setCoachLoading(loading) {
+    const btn = document.getElementById('coach-send-btn');
+    const input = document.getElementById('coach-input');
+    if (btn) btn.disabled = loading;
+    if (input) input.disabled = loading;
+    if (loading) {
+      const container = document.getElementById('coach-messages');
+      if (container) {
+        const el = document.createElement('div');
+        el.className = 'coach-msg loading assistant';
+        el.id = 'coach-loading-msg';
+        el.innerHTML = '<div class="coach-msg-role">Coach</div><div class="coach-msg-bubble">Thinking...</div>';
+        container.appendChild(el);
+        container.scrollTop = container.scrollHeight;
+      }
+    } else {
+      const loadingEl = document.getElementById('coach-loading-msg');
+      if (loadingEl) loadingEl.remove();
+    }
+  }
+
+  async function sendCoachMessage() {
+    const input = document.getElementById('coach-input');
+    const text = (input.value || '').trim();
+    if (!text) return;
+
+    const apiKey = localStorage.getItem(API_KEY_STORE);
+    if (!apiKey) { showApiKeySetup(); return; }
+
+    coachMessages.push({ role: 'user', content: text });
+    saveCoachMessages();
+    input.value = '';
+    renderCoachChat();
+    setCoachLoading(true);
+
+    try {
+      // Send last 40 messages for context, always with fresh system prompt
+      const apiMessages = coachMessages.slice(-40).map(m => ({
+        role: m.role,
+        content: m.content
+      }));
+
+      const response = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-api-key': apiKey,
+          'anthropic-version': '2023-06-01',
+          'anthropic-dangerous-direct-browser-access': 'true'
+        },
+        body: JSON.stringify({
+          model: 'claude-haiku-4-5-20251001',
+          max_tokens: 1024,
+          system: buildSystemPrompt(),
+          messages: apiMessages
+        })
+      });
+
+      if (!response.ok) {
+        const err = await response.json().catch(() => ({}));
+        throw new Error(err.error?.message || 'API error ' + response.status);
+      }
+
+      const result = await response.json();
+      const replyText = (result.content || [])
+        .filter(b => b.type === 'text')
+        .map(b => b.text)
+        .join('\n')
+        .trim();
+
+      if (!replyText) throw new Error('Empty response from API');
+
+      coachMessages.push({ role: 'assistant', content: replyText });
+      saveCoachMessages();
+
+    } catch (err) {
+      const msg = err.message.includes('401') ? 'Invalid API key. Tap "update key" below.' :
+                  err.message.includes('429') ? 'Rate limit hit — wait a moment and try again.' :
+                  err.message.includes('500') ? 'Anthropic server error — try again.' :
+                  '⚠️ ' + err.message;
+      coachMessages.push({ role: 'assistant', content: msg });
+      saveCoachMessages();
+    }
+
+    setCoachLoading(false);
+    renderCoachChat();
+  }
+
+  function clearCoachHistory() {
+    if (confirm("Clear all coach chat history?")) {
+      coachMessages = [];
+      saveCoachMessages();
+      renderCoachChat();
+    }
+  }
+
+  // Allow Cmd+Enter or Ctrl+Enter to send
+  document.getElementById('coach-input') && document.getElementById('coach-input').addEventListener('keydown', function(e) {
+    if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') {
+      e.preventDefault();
+      sendCoachMessage();
+    }
+  });
+
 </script>
 </body>
 </html>
